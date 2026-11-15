@@ -1,0 +1,7 @@
+pyserial>=3.5
+opencv-python>=4.8.0
+ultralytics>=8.0.0
+streamlit>=1.30.0
+numpy
+pillow
+

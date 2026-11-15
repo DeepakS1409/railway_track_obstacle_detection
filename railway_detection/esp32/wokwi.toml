@@ -1,0 +1,4 @@
+[wokwi]
+version = 1
+firmware = "build/esp32.ino.bin"
+rfc2217ServerPort = 4000

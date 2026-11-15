@@ -1,0 +1,77 @@
+{
+    "version": 1,
+    "author": "Antigravity Engineering",
+    "editor": "wokwi",
+    "parts": [
+        { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+        {
+            "type": "wokwi-led",
+            "id": "led_red",
+            "top": -80,
+            "left": 160,
+            "attrs": { "color": "red", "label": "ALERT (Red)" }
+        },
+        {
+            "type": "wokwi-resistor",
+            "id": "r_red",
+            "top": -40,
+            "left": 160,
+            "attrs": { "value": "220" }
+        },
+        {
+            "type": "wokwi-led",
+            "id": "led_green",
+            "top": -80,
+            "left": 230,
+            "attrs": { "color": "green", "label": "SAFE (Green)" }
+        },
+        {
+            "type": "wokwi-resistor",
+            "id": "r_green",
+            "top": -40,
+            "left": 230,
+            "attrs": { "value": "220" }
+        },
+        {
+            "type": "wokwi-buzzer",
+            "id": "buzzer",
+            "top": -80,
+            "left": 300,
+            "attrs": { "volume": "0.1", "label": "Buzzer" }
+        },
+        {
+            "type": "wokwi-pir-motion-sensor",
+            "id": "pir",
+            "top": 120,
+            "left": -220,
+            "attrs": { "label": "PIR Motion" }
+        },
+        {
+            "type": "wokwi-hc-sr04",
+            "id": "ultrasonic",
+            "top": -120,
+            "left": -220,
+            "attrs": { "distance": "120", "label": "HC-SR04 Distance" }
+        }
+    ],
+    "connections": [
+        ["esp:TX", "$serialMonitor:RX", "", []],
+        ["esp:RX", "$serialMonitor:TX", "", []],
+        ["esp:4", "r_red:1", "red", ["v0"]],
+        ["r_red:2", "led_red:A", "red", ["v0"]],
+        ["led_red:C", "esp:GND.1", "black", ["v10", "h-20"]],
+        ["esp:16", "r_green:1", "green", ["v0"]],
+        ["r_green:2", "led_green:A", "green", ["v0"]],
+        ["led_green:C", "esp:GND.1", "black", ["v10", "h-40"]],
+        ["esp:17", "buzzer:2", "orange", ["v0"]],
+        ["buzzer:1", "esp:GND.1", "black", ["v10", "h-60"]],
+        ["esp:5V", "pir:VCC", "red", ["v20", "h-150"]],
+        ["esp:GND.2", "pir:GND", "black", ["v30", "h-150"]],
+        ["esp:27", "pir:OUT", "blue", ["v40", "h-150"]],
+        ["esp:5V", "ultrasonic:VCC", "red", ["v-20", "h-150"]],
+        ["esp:GND.2", "ultrasonic:GND", "black", ["v-30", "h-150"]],
+        ["esp:25", "ultrasonic:TRIG", "purple", ["v-40", "h-150"]],
+        ["esp:26", "ultrasonic:ECHO", "yellow", ["v-50", "h-150"]]
+    ],
+    "dependencies": {}
+}
