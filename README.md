@@ -11,23 +11,23 @@ An intelligent multi-sensor embedded IoT and computer vision prototype designed 
 ## 1. Project Architecture & Workflow
 
 ```
-[ Camera Stream / Video / Webcam ]
-               │
+[ Android Phone Camera (Expo Go App) ]
+               │  (Wi-Fi HTTP /base64)
                ▼
-   [ OpenCV Video Handler ]
+[ Python FastAPI Backend (:8000) ]
                │
                ▼
 [ Ultralytics YOLOv8 Nano Inference ] (Person, Dog, Cow)
                │
                ▼
-   [ Python Decision Engine ]
+   [ Decision State Engine ]
           │          ▲
 (ALERT / SAFE)    (Telemetry: PIR, Distance)
           ▼          │
- [ PySerial RFC2217 / COM Manager ]
+ [ PySerial RFC2217 Manager (Port 4000) ]
                │
                ▼
-      [ ESP32 Firmware ]
+      [ ESP32 Firmware (Wokwi) ]
      ┌─────────┴─────────┐
      ▼                   ▼
 [ Red LED + Buzzer ]  [ Green LED ]
@@ -55,23 +55,32 @@ An intelligent multi-sensor embedded IoT and computer vision prototype designed 
 ```
 railway_detection/
 │
+├── wokwi.toml             # Wokwi simulation config (RFC2217 port 4000)
+├── diagram.json           # Wokwi circuit schematic
+│
 ├── esp32/
-│   ├── sketch.ino          # ESP32 C++ firmware (non-blocking, JSON telemetry)
-│   ├── diagram.json        # Wokwi circuit definition with exact pin assignments
-│   └── wokwi.toml          # Wokwi simulation config (RFC2217 port 4000 enabled)
+│   ├── esp32.ino          # ESP32 C++ firmware
+│   └── build/
+│       └── esp32.ino.bin  # Compiled firmware binary
 │
-├── python/
-│   ├── config.py           # Centralized configuration (ports, classes, thresholds)
-│   ├── serial_manager.py   # Thread-safe PySerial / RFC2217 communication manager
-│   ├── test_serial.py      # Stage 1 verification script (ping, alert, safe, telemetry)
-│   ├── detector.py         # Lightweight YOLOv8n object detector
-│   ├── camera.py           # Robust video stream handler (Webcam, file, IP camera)
-│   └── main.py             # Desktop OpenCV HUD runner
+├── python_ai/
+│   ├── server.py          # FastAPI backend receiving Expo Go mobile camera frames
+│   ├── test_server.py     # Automated backend integration test
+│   ├── detector.py        # Ultralytics YOLOv8 nano model (Person, Dog, Cow)
+│   ├── esp32_serial.py    # Non-blocking PySerial RFC2217 client
+│   ├── config.py          # Settings & thresholds
+│   ├── test_modules.py    # Independent diagnostics (serial, yolo, camera)
+│   ├── requirements.txt   # Backend dependency list
+│   └── models/
+│       └── yolov8n.pt     # Lightweight YOLOv8 nano weights
 │
-├── dashboard/
-│   └── app.py              # Streamlit live monitoring dashboard
+├── mobile_app/            # Expo Go (React Native) Camera Application
+│   ├── App.js             # Mobile UI, camera preview, detection HUD & telemetry
+│   ├── app.json           # Expo configuration & permissions
+│   ├── package.json       # Mobile app dependencies (expo-camera, react-native)
+│   └── README.md          # Mobile setup guide
 │
-├── requirements.txt        # Python dependency manifest
+├── requirements.txt       # Global Python requirements
 └── README.md
 ```
 

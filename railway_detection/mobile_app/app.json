@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "Railway Track Detection",
+    "slug": "railway-track-detection",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#0b0f19",
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow Railway Track Detection to access your camera for obstacle monitoring."
+        }
+      ]
+    ],
+    "android": {
+      "permissions": [
+        "CAMERA"
+      ]
+    }
+  }
+}
